@@ -38,8 +38,19 @@ module hinge_m()
 r1 = hr1;
 r2 = hr2;
 
-translate([0,-hr1-give,-hr1])
-cube([th, hr1+give, hr1*2]);
+
+test = hr1+.414*hr1*2;
+
+/*
+translate([0,-test,-hr1])
+
+rotate([45,0,0])
+cube([th,hr1,hr1]);
+*/
+support();
+
+translate([0,-test,-hr1])
+cube([th, test, hr1*2]);
 
 
 rotate([0,-90,0])
@@ -50,14 +61,46 @@ rotate([0,90,0])
 cylinder(r1=r1, r2=r2, h=ch);
 }
 
+
+module support()
+{
+test = hr1+.414*hr1*2;
+
+
+translate([0,-test,-hr1])
+
+rotate([45,0,0])
+cube([th,hr1,hr1]);
+
+
+}
+
+
 module hinge_f()
 {
+
+test = hr1+.414*hr1*2;
+
+
 difference()
 {
 union()
 {
+
+
+
+rotate([45,0,0])
+translate([-th,hr1+.5+1,-hr1*2+3.55])
+
+//translate([0,0,hr1])
+cube([th,hr1,hr1]);
+
+
+//translate([0,0,hr1])
+//support();
+
 translate([-th,0,0])
-cube([th,hr1+give,hr1*2]);
+cube([th,hr1+2*(sqrt(2)-1)*hr1,hr1*2]);
 
 translate([-th,0,hr1])
 rotate([0,90,0])
@@ -82,10 +125,11 @@ difference()
 {
 union()
 {
-rCube(th*5,60,10,4);
+
+rCube(th*5,60,hr1*2,4);
 
 translate([0,0,0])
-cube([th*5,4,10]);
+cube([th*5,4,hr1*2]);
 
 
 
@@ -93,16 +137,16 @@ cube([th*5,4,10]);
 difference()
 {
 translate([th*2.5,63,0])
-cylinder(r=10, h=10);
+cylinder(r=10, h=hr1*2);
 
 translate([th*2.5,65,2])
-cylinder(r=5, h=20);
+cylinder(r=5, h=hr1*2);
 }
 
 }
 
 translate([2,2,2])
-rCube(th*5-4,60-4,10,4);
+rCube(th*5-4,60-4,hr1*2,4);
 }
 
 
@@ -120,10 +164,47 @@ cylinder(r=5, h=20);
 //space for cards
 module top()
 {
-cube([th*5,10,10]);
+difference()
+{
+union()
+{
+rCube(th*5,60,hr1*2,4);
 
+//magnet holder 2
+
+translate([th*2.5,63,0])
+cylinder(r=10, h=hr1*2);
+
+translate([th*2.5,65,2])
+cylinder(r=4.8, h=hr1*2+2);
 }
 
+//credit card slots!
+
+translate([95,2.5,1])
+rotate([0,0,90])
+
+scale([1.00235,1.1,1.25])
+credit_card();
+
+
+translate([95,2.5,4])
+rotate([0,0,90])
+
+scale([1.00235,1.1,1.25])
+credit_card();
+
+
+
+translate([95,2.5,7])
+rotate([0,0,90])
+
+scale([1.00235,1.1,1.25])
+credit_card();
+
+
+}
+}
 
 module quarter_cylinder(r=1, h=1)
 {
@@ -140,16 +221,30 @@ cube([r,r*2,r]);
 }
 
 
+
+//FULHACK ALERT
+translate([0,give,hr1])
+rotate([45,0,0])
 translate([-th-dh,0,0])
 {
 rotate([0,90,0])
 cylinder(r=hr1, h=dh);
 
 
-translate([0,-hr1-give,-hr1])
-cube([th, hr1+give, hr1*2]);
+
+translate([0,-hr1-hr1*.414*2,-hr1])
+cube([th, hr1+.414*2*hr1, hr1*2]);
+
+
+support();
 }
 
+
+
+
+
+translate([0,give,hr1])
+rotate([45,0,0])
 
 for(i=[0:1])
 {
@@ -165,12 +260,15 @@ hinge_m();
 //cube([2,20,1]);
 
 
+/*
 translate([-th*2+2,-hr1-give-3,10])
 rotate([0,0,-90])
 credit_card();
+*/
 
 
-
+translate([0,give,hr1])
+rotate([-45,0,0])
 translate([0,0,-hr1])
 
 {
@@ -190,5 +288,22 @@ mirror([0,1,0])
 bottom();
 
 
-translate([-th*2,hr1+give,-hr1])
+translate([-th*2,hr1+give+give+give,-hr1])
 top();
+
+
+
+/*
+rotate([45,0,0])
+hinge_m();
+
+rotate([-45,0,0])
+translate([0,0,-hr1])
+hinge_f();
+*/
+
+
+/*
+translate([0,0,50])
+hinge_m();
+*/
