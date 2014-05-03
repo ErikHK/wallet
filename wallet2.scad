@@ -7,16 +7,16 @@ use <wallet.scad>
 hg = .2;
 
 //give between hinge and wallet
-give = 1;
+give = .8;
 
 //distance between cylinders in hinge
 
 dc = 8.5;
 
 //hinge radius1
-hr1 = 5;
+hr1 = 3.4;
 
-hr2 = 2;
+hr2 = 1;
 
 //cylinder height
 ch = 5;
@@ -31,6 +31,11 @@ dh = th;
 //bottom walls' thickness
 bw = 2;
 
+//magnet hole radius
+mhr = 5.7;
+
+//magnet hole height
+mhh = 4;
 
 
 module hinge_m()
@@ -90,7 +95,7 @@ union()
 
 
 rotate([45,0,0])
-translate([-th,hr1+.5+1,-hr1*2+3.55])
+translate([-th,hr1+.5+.5,-hr1*2+2.415])
 
 //translate([0,0,hr1])
 cube([th,hr1,hr1]);
@@ -139,8 +144,8 @@ difference()
 translate([th*2.5,63,0])
 cylinder(r=10, h=hr1*2);
 
-translate([th*2.5,65,2])
-cylinder(r=5, h=hr1*2);
+translate([th*2.5,65.5,1.5])
+cylinder(r=mhr, h=mhh);
 }
 
 }
@@ -171,12 +176,14 @@ union()
 rCube(th*5,60,hr1*2,4);
 
 //magnet holder 2
-
+difference()
+{
 translate([th*2.5,63,0])
 cylinder(r=10, h=hr1*2);
 
-translate([th*2.5,65,2])
-cylinder(r=4.8, h=hr1*2+2);
+translate([th*2.5,65.5,1.5])
+cylinder(r=mhr, h=mhh);
+}
 }
 
 //credit card slots!
