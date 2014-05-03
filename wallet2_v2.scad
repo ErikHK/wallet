@@ -4,7 +4,7 @@ use <wallet.scad>
 //credit_card();
 
 //hinge give
-hg = .2;
+hg = .3;
 
 //give between hinge and wallet
 give = .8;
@@ -14,7 +14,7 @@ give = .8;
 dc = 8.5;
 
 //hinge radius1
-hr1 = 3.4;
+hr1 = 3;
 
 hr2 = 1;
 
@@ -126,6 +126,29 @@ cylinder(r1=hr1+hg, r2=hr2+hg,h=ch+hg);
 //space for money and junk
 module bottom()
 {
+//sliders!
+
+
+translate([12,16,2])
+
+rotate([90,0,180])
+linear_extrude(height=4)
+polygon(points=[[10,4], [10,0], [0,0]]);
+
+//roof!
+translate([70.5,0,5.25])
+cube([20,58,.75]);
+
+
+translate([12,40,2])
+
+rotate([90,0,180])
+linear_extrude(height=4)
+polygon(points=[[10,4], [10,0], [0,0]]);
+
+
+
+
 difference()
 {
 union()
@@ -139,7 +162,7 @@ cube([th*5,4,hr1*2]);
 
 
 //magnet holder 2
-translate([th*2.5,65.7,6])
+translate([th*2.5,65.7,5.1])
 cylinder(r=5.69, h=.85);
 
 difference()
@@ -182,7 +205,7 @@ rCube(th*5,60,hr1*2,4);
 
 //magnet holder 2
 
-translate([th*2.5,65.7,6])
+translate([th*2.5,65.7,5.1])
 cylinder(r=5.69, h=.85);
 
 
@@ -198,26 +221,20 @@ cylinder(r=mhr, h=mhh);
 
 //credit card slots!
 
+/*
 translate([95,2.5,1])
 rotate([0,0,90])
 
 scale([1.00235,1.1,1.25])
 credit_card();
+*/
 
-
-translate([95,2.5,4])
+translate([95+6,2.5,2])
 rotate([0,0,90])
 
-scale([1.00235,1.1,1.25])
+scale([1.00235,1.1,1.24])
 credit_card();
 
-
-
-translate([95,2.5,7])
-rotate([0,0,90])
-
-scale([1.00235,1.1,1.25])
-credit_card();
 
 
 }
