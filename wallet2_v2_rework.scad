@@ -11,7 +11,7 @@ give = -.2;
 
 //distance between cylinders in hinge
 
-dc = 8.5;
+dc = 8.5+1;
 
 //hinge radius1
 hr1 = 3.3;
@@ -138,11 +138,11 @@ translate([12-5,16,2.01])
 
 rotate([90,0,180])
 linear_extrude(height=4)
-polygon(points=[[5.01,3], [5.01,0], [0,0]]);
+polygon(points=[[5.01,3.18], [5.01,0], [0,0]]);
 
 
 //roof!
-translate([70.5,0,hr1*sqrt(2)-.75+.5])
+translate([70.5+5,0,hr1*sqrt(2)-.75+.5])
 cube([20,58,.75]);
 
 
@@ -150,7 +150,7 @@ translate([12-5,40,2.01])
 
 rotate([90,0,180])
 linear_extrude(height=4)
-polygon(points=[[5,3], [5,0], [0,0]]);
+polygon(points=[[5,3.18], [5,0], [0,0]]);
 
 
 
@@ -241,7 +241,7 @@ scale([1.00235,1.1,1.25])
 credit_card();
 */
 
-translate([90,2.5,1.25])
+translate([86,2.5,1.25])
 rotate([0,0,90])
 
 scale([1.00235,1.1,1.24])
@@ -250,7 +250,7 @@ credit_card();
 
 //finger hole
 
-translate([45,30,-.1])
+translate([50,30,-.1])
 scale([2.5,1,1])
 cylinder(r=12, h=2);
 
@@ -258,6 +258,14 @@ cylinder(r=12, h=2);
 
 }
 }
+
+//TEST FIT!
+/*
+rotate([0,0,90])
+translate([7,-80,-5])
+credit_card();
+*/
+
 
 module quarter_cylinder(r=1, h=1)
 {
@@ -365,7 +373,8 @@ hinge_m();
 
 
 
-
+mirror([1,0,0])
+{
 //HINGES!!!
 
 hinge_m(right=false);
@@ -391,3 +400,4 @@ bottom();
 
 translate([-th*4,hr1*sqrt(2)+give,-hr1*sqrt(2)])
 top();
+}
