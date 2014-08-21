@@ -11,7 +11,7 @@ give = -.2;
 
 //distance between cylinders in hinge
 
-dc = 8.5+1-3;
+dc = 8.5+1;
 
 //hinge radius1
 hr1 = 3.3;
@@ -19,7 +19,7 @@ hr1 = 3.3;
 hr2 = 1;
 
 //cylinder height
-ch = 4;
+ch = 5;
 
 //total hinge distance
 th = dc+ch*2;
@@ -36,6 +36,9 @@ mhr = 5.6;
 
 //magnet hole height
 mhh = 4.4+1;
+
+//difference in height between top and bottom
+diff = 1;
 
 
 module hinge_m(left=true, right=true)
@@ -138,11 +141,11 @@ translate([12-5,16,2.01])
 
 rotate([90,0,180])
 linear_extrude(height=4)
-polygon(points=[[5.01,3.18], [5.01,0], [0,0]]);
+polygon(points=[[5.01,3.18+.5], [5.01,0], [0,0]]);
 
 
 //roof!
-translate([70.5+5,0,hr1*sqrt(2)-.75+.5])
+translate([70.5+5,0,hr1*sqrt(2)-.75+diff])
 cube([20,58,.75]);
 
 
@@ -150,7 +153,7 @@ translate([12-5,40,2.01])
 
 rotate([90,0,180])
 linear_extrude(height=4)
-polygon(points=[[5,3.18], [5,0], [0,0]]);
+polygon(points=[[5,3.18+.5], [5,0], [0,0]]);
 
 
 
@@ -160,7 +163,7 @@ difference()
 union()
 {
 
-rCube(th*5,60,hr1*sqrt(2)+.5,4);
+rCube(th*5,60,hr1*sqrt(2)+diff,4);
 
 translate([0,0,0])
 cube([th*5,4,hr1*sqrt(2)]);
@@ -209,11 +212,17 @@ cylinder(r=5, h=20);
 //space for cards
 module top()
 {
+
+//roof!
+translate([70.5+5-20,0,hr1*sqrt(2)-.75-diff])
+cube([40,58,.75]);
+
+
 difference()
 {
 union()
 {
-rCube(th*5,60,hr1*sqrt(2)-.5,4);
+rCube(th*5,60,hr1*sqrt(2)-diff,4);
 
 //magnet holder 2
 
@@ -241,18 +250,12 @@ scale([1.00235,1.1,1.25])
 credit_card();
 */
 
-translate([86,2.5,1.25])
-rotate([0,0,90])
+//translate([86+4,2.5,1.25])
+//rotate([0,0,90])
 
-scale([1.00235,1.1,1.24])
-credit_card();
+translate([2,2,2])
+rCube(th*5-4,60-4,hr1*2,4);
 
-
-//finger hole
-
-translate([50,30,-.1])
-scale([2.5,1,1])
-cylinder(r=12, h=2);
 
 
 
@@ -377,9 +380,11 @@ mirror([1,0,0])
 {
 //HINGES!!!
 
+hinge_m(right=false);
 translate([-th*2,0,0])
 hinge_m();
-
+translate([-th*4,0,0])
+hinge_m(left=false, right=true);
 
 
 
@@ -389,7 +394,7 @@ hinge_f();
 translate([-th*2,0,0])
 hinge_f();
 }
-/*
+
 translate([-th*4,-hr1*sqrt(2)-give,-hr1*sqrt(2)])
 mirror([0,1,0])
 bottom();
@@ -398,13 +403,4 @@ bottom();
 
 translate([-th*4,hr1*sqrt(2)+give,-hr1*sqrt(2)])
 top();
-*/
 }
-
-
-translate([0,4.65,-4.66])
-cube([50,10,4]);
-
-
-translate([0,-14.65,-4.66])
-cube([50,10,4]);
