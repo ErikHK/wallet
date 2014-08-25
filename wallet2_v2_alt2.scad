@@ -49,7 +49,10 @@ dh = th;
 wth = 2;
 
 //magnet hole radius
-mhr = 5.6;
+mhr = 5.7;
+
+//magnet wall thickness
+mwth = 1;
 
 //magnet hole height
 mhh = 4.4+1;
@@ -219,6 +222,10 @@ union()
 {
 rCube(th*5,w,hr1*sqrt(2)-diff,r);
 
+
+translate([th*2.5,-hr1*sqrt(2)+give-w+hg-wth*2,0])
+magnet_holder();
+
 }
 
 translate([wth,wth,wth])
@@ -228,11 +235,114 @@ rCube(th*5-r,w-wth*2,hr1*2,r);
 }
 
 
+module magnet_holder_plug()
+{
+rr = mhr-.1;
+cylinder(r=rr, h=.8);
+pth = .5;
+
+module fastener()
+{
+ translate([-1.9/2,rr-.1,1])
+  rotate([0,90,0])
+  cylinder(r=1,h=1.9, $fn=4);
+}
+
+module pins()
+{
+
+
+  
+  difference()
+  {
+  union()
+  {
+  cylinder(r=rr, h=1);
+  
+
+  //fasteners
+  fastener();
+  rotate([0,0,90])
+  fastener();
+  rotate([0,0,180])
+  fastener();
+  rotate([0,0,-90])
+  fastener();
+  
+  }
+  
+  translate([0,0,.001])
+  cylinder(r=rr-pth, h=1);
+
+  translate([0,0,1])
+  cylinder(r=rr+2,h=10);
+
+  rotate([0,0,-45])
+  translate([-.5,-rr-2,0])
+  cube([1,rr*2+4,1.1]);
+
+  rotate([0,0,45])
+  translate([-.5,-rr-2,0])
+  cube([1,rr*2+4,1.1]);
+
+
+
+  }
+}
+
+translate([0,0,.8])
+pins();
+
+}
+
+
 
 module magnet_holder()
 {
-translate([0,0,0])
-rCube(th*5,3,5,2);
+
+//magnet!
+//translate([0,0,hr1*sqrt(2)-mwth/2-2.6])
+//cylinder(r=5, h=2.6);
+
+difference()
+{
+cylinder(r=mhr+mwth, h=hr1*sqrt(2));
+
+translate([0,0,-.01])
+cylinder(r=mhr, h=hr1*sqrt(2)-mwth/2);
+
+//translate([-mhr*2,0,0])
+//cube([20,20,20]);
+
+
+translate([0,0,.8])
+{
+rotate([0,0,90])
+translate([-1,-mhr+.1,1])
+rotate([0,90,0])
+cylinder(r=1, h=2, $fn=4);
+
+rotate([0,0,-90])
+translate([-1,-mhr+.1,1])
+rotate([0,90,0])
+cylinder(r=1, h=2, $fn=4);
+
+
+rotate([0,0,0])
+translate([-1,-mhr+.1,1])
+rotate([0,90,0])
+cylinder(r=1, h=2, $fn=4);
+
+rotate([0,0,180])
+translate([-1,-mhr+.1,1])
+rotate([0,90,0])
+cylinder(r=1, h=2, $fn=4);
+
+}
+
+
+
+}
 
 }
 
@@ -241,6 +351,7 @@ rCube(th*5,3,5,2);
 //magnet_holder();
 
 
+/*
 mirror([0,0,0])
 {
 //HINGES!!!
@@ -269,3 +380,10 @@ bottom();
 translate([-th*4,hr1*sqrt(2)+give,-hr1*sqrt(2)])
 top();
 }
+*/
+
+
+translate([20,0,0])
+magnet_holder();
+
+magnet_holder_plug();
