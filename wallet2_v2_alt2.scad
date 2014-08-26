@@ -57,6 +57,10 @@ mwth = 1;
 //magnet hole height
 mhh = 4.4+1;
 
+//distance between origin
+//and end of wallet
+dbow = -hr1*sqrt(2)-give-w;
+
 //difference in height between top and bottom
 diff = 0;
 
@@ -164,6 +168,9 @@ cube([brl-10,58,.75]);
 
 //translate([0,w/2,R+wth]) rotate([0,90,0]) cylinder(r=R, h=wth, $fn=200);
 
+translate([th*2.5, w+mhr+1, 0])
+mirror([1,0,0])
+magnet_holder();
 
 difference()
 {
@@ -223,7 +230,8 @@ union()
 rCube(th*5,w,hr1*sqrt(2)-diff,r);
 
 
-translate([th*2.5,-hr1*sqrt(2)+give-w+hg-wth*2,0])
+
+translate([th*2.5,w+mhr+1,0])
 magnet_holder();
 
 }
@@ -306,7 +314,13 @@ module magnet_holder()
 
 difference()
 {
+union()
+{
 cylinder(r=mhr+mwth, h=hr1*sqrt(2));
+
+translate([-mhr-mwth,-mhr-mwth,0])
+cube([(mhr+mwth)*2,mhr+mwth,hr1*sqrt(2)]);
+}
 
 translate([0,0,-.01])
 cylinder(r=mhr, h=hr1*sqrt(2)-mwth/2);
@@ -351,19 +365,31 @@ cylinder(r=1, h=2, $fn=4);
 //magnet_holder();
 
 
-/*
-mirror([0,0,0])
-{
-//HINGES!!!
 
+module wallet()
+{
+
+//bottom!
+module bottom_h()
+{
 hinge_m(right=false);
 translate([-th*2,0,0])
 hinge_m();
 translate([-th*4,0,0])
 hinge_m(left=false, right=true);
+translate([-th*4,-hr1*sqrt(2)-give,-hr1*sqrt(2)])
+mirror([0,1,0])
+bottom();
+
+}
+
+bottom_h();
 
 
 
+
+module top_h()
+{
 mirror([0,1,0])
 {
 hinge_f();
@@ -371,16 +397,17 @@ translate([-th*2,0,0])
 hinge_f();
 }
 
-translate([-th*4,-hr1*sqrt(2)-give,-hr1*sqrt(2)])
-mirror([0,1,0])
-bottom();
-
-
-
 translate([-th*4,hr1*sqrt(2)+give,-hr1*sqrt(2)])
 top();
 }
-*/
+
+//rotate([180,0,0])
+top_h();
+
+}
+
+//wallet();
+
 
 
 translate([20,0,0])
