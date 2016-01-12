@@ -21,7 +21,7 @@ wfogw = 3;
 wfogh = .4;
 
 //hinge give
-hg = .25;
+hg = .25+.2;
 
 //give between hinge and wallet
 give = -.2;
@@ -69,6 +69,9 @@ diff = .5;
 
 
 hh = hr1*sqrt(2)-wfogh-wth;
+
+totheight=hr1*sqrt(2)+diff;
+
 c = w - wth*2 - wfogw*2;
 R = hh/2 + c*c/(8*hh);
 
@@ -171,9 +174,7 @@ cube([brl-10,58,.75]);
 
 //translate([0,w/2,R+wth]) rotate([0,90,0]) cylinder(r=R, h=wth, $fn=200);
 
-translate([th*2.5, w+mhr, 0])
-mirror([1,0,0])
-magnet_holder();
+//translate([th*2.5, w+mhr, 0]) mirror([1,0,0]) magnet_holder();
 
 difference()
 {
@@ -234,8 +235,8 @@ rCube(th*5,w,hr1*sqrt(2)-diff,r);
 
 
 
-translate([th*2.5,w+mhr,0])
-magnet_holder(diff=0);
+//translate([th*2.5,w+mhr,0])
+//magnet_holder(diff=0);
 
 }
 
@@ -416,6 +417,11 @@ translate([-th*4,-hr1*sqrt(2)-give,-hr1*sqrt(2)])
 mirror([0,1,0])
 bottom();
 
+
+translate([-17,-w-11.3,-.5])
+rotate([-90,0,90])
+clip(give=.2);
+
 }
 
 bottom_h();
@@ -434,9 +440,15 @@ hinge_f();
 
 translate([-th*4,hr1*sqrt(2)+give,-hr1*sqrt(2)])
 top();
+
+
+translate([-40,w -(-hr1*sqrt(2)-give)+totheight,-.5])
+rotate([-90,0,-90])
+clip(give=.2);
+
 }
 
-//rotate([180,0,0])
+rotate([180,0,0])
 top_h();
 
 }
@@ -450,3 +462,42 @@ magnet_holder();
 
 magnet_holder_plug();
 */
+
+
+module clip(dd=1, len=10, give=0)
+{
+
+module top()
+{
+  cylinder(d=totheight-dd, h=.01);
+  translate([0,0,.5])
+  sphere(d=4, $fn=12);
+}
+
+translate([0,0,0])
+{
+  //rotate([0,90,0])
+  //{
+    translate([totheight/2+dd/2,-totheight/2+dd/2+give,0])
+    {
+    cylinder(d=totheight-dd, h=len);
+    translate([-totheight/2+dd/2,0,0])
+    cube([totheight-dd,totheight/2-dd/2-give,len]);
+
+    hull()
+    {
+    translate([0,0,len])
+    top();
+    }
+    }
+
+    translate([dd,0,0])
+	 linear_extrude(height=len)
+    polygon(points=[[0,0], [totheight-dd,0], [totheight-dd,totheight-dd]], paths=[[0,1,2]]);
+    
+    //translate([0,0,15])
+    //cylinder(d1=5, d2=3, h=2);
+  //}
+}
+}
+
